@@ -1,0 +1,552 @@
+<html lang="en">
+<head>
+<title>bbe - binary block editor</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="bbe - binary block editor">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="top" href="#Top">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+This file documents version 0.2.2 of `bbe', a binary block editor.
+
+Copyright (C) 2005 Timo Savinen
+
+     Permission is granted to make and distribute verbatim copies of
+     this manual provided the copyright notice and this permission
+     notice are preserved on all copies.
+
+     Permission is granted to copy and distribute modified versions of
+     this manual under the conditions for verbatim copying, provided
+     that the entire resulting derived work is distributed under the
+     terms of a permission notice identical to this one.
+
+     Permission is granted to copy and distribute translations of this
+     manual into another language, under the above conditions for
+     modified versions.
+   -->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<h1 class="settitle">bbe - binary block editor</h1>
+<div class="node">
+<a name="Top"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Overview">Overview</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#dir">(dir)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
+
+</div>
+
+<h2 class="unnumbered">bbe</h2>
+
+<p>This file documents version 0.2.2 of <samp><span class="command">bbe</span></samp>, a binary block editor.
+
+   <p>Copyright &copy; 2005 Timo Savinen
+
+   <blockquote>
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+   <p>Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+   <p>Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. 
+</blockquote>
+
+<!-- All the menus can be updated with the EMACS command -->
+<!-- texinfo-all-menus-update, which is normally bound to C-c C-u C-a. -->
+<ul class="menu">
+<li><a accesskey="1" href="#Overview">Overview</a>:                     Preliminary information. 
+<li><a accesskey="2" href="#Samples">Samples</a>:                      Samples using <samp><span class="command">bbe</span></samp>. 
+<li><a accesskey="3" href="#Invoking-bbe">Invoking bbe</a>:                 How to run <samp><span class="command">bbe</span></samp>. 
+<li><a accesskey="4" href="#bbe-programs">bbe programs</a>:                 How <samp><span class="command">bbe</span></samp> works. 
+<li><a accesskey="5" href="#Problems">Problems</a>:                     Reporting bugs. 
+</ul>
+
+<div class="node">
+<a name="Overview"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Samples">Samples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+
+</div>
+
+<h2 class="chapter">1 Preliminary information</h2>
+
+<p><a name="index-greetings-1"></a><a name="index-overview-2"></a>
+The <samp><span class="command">bbe</span></samp> program is a sed-like editor for binary files. <samp><span class="command">bbe</span></samp>
+performs basic byte related transformations on blocks of input stream. <samp><span class="command">bbe</span></samp> is non-interactive command line tool and
+can be used as a part of a pipeline. <samp><span class="command">bbe</span></samp> makes only one pass over input stream.
+
+   <p><samp><span class="command">bbe</span></samp> contains also grep-like features, like printing the filename, offset and block number.
+
+<div class="node">
+<a name="Samples"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Invoking-bbe">Invoking bbe</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Overview">Overview</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+
+</div>
+
+<h2 class="chapter">2 Samples using <samp><span class="command">bbe</span></samp></h2>
+
+<p><a name="index-sample-3"></a>
+Few examples of running <samp><span class="command">bbe</span></samp>:
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">bbe -b "/\x80\x50\x0e/:12" -e "d 0 3" -e "c BCD ASC" -e "A \x0a" -e "w /tmp/numbers" -o /dev/null /tmp/bdata</span></samp>&rsquo;<dd>Task here is to extract BCD coded numbers from the file <samp><span class="file">/tmp/bdata</span></samp> and write them
+in ascii format with newline to file <samp><span class="file">/tmp/numbers</span></samp>. 
+12 bytes long blocks containing the BCD-numbers start with three byte sequence of
+values &lsquo;<samp><span class="samp">0x80</span></samp>&rsquo;, &lsquo;<samp><span class="samp">0x50</span></samp>&rsquo; and &lsquo;<samp><span class="samp">0x0e</span></samp>&rsquo;. First three bytes (the block start sequence)
+are removed (&lsquo;<samp><span class="samp">d 0 3</span></samp>&rsquo;) rest of the block is transformed from BCD to Ascii (&lsquo;<samp><span class="samp">c BCD ASC</span></samp>&rsquo;) and a newline character is
+appended at the end of the block (&lsquo;<samp><span class="samp">A \x0a</span></samp>&rsquo;). 
+All transformed blocks are written to <samp><span class="file">/tmp/numbers</span></samp> (&lsquo;<samp><span class="samp">w /tmp/numbers</span></samp>&rsquo;). Nothing is written to
+the output (&lsquo;<samp><span class="samp">-o /dev/null</span></samp>&rsquo;). 
+<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b ":525" -e "i 524 \x0a" -o /tmp/data_with_nl /tmp/data</span></samp>&rsquo;<dd>A newline is added after every 525'th byte of the file <samp><span class="file">/tmp/data</span></samp>. Data with newlines is written to <samp><span class="file">/tmp/data_with_nl</span></samp>. 
+<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b ":526" -e "d 525 1" -o /tmp/data /tmp/data_with_nl</span></samp>&rsquo;<dd>Every 526'th byte (inserted newline in previous example) is removed from the file <samp><span class="file">/tmp/data_with_nl</span></samp>. Data without newlines is written to <samp><span class="file">/tmp/data</span></samp>. 
+<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -e "s/\x0d\x0a/\x0a/"</span></samp>&rsquo;<dd>Same effect as has command <samp><span class="command">dos2unix</span></samp>. 
+</dl>
+
+<div class="node">
+<a name="Invoking-bbe"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#bbe-programs">bbe programs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Samples">Samples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+
+</div>
+
+<h2 class="chapter">3 How to run <samp><span class="command">bbe</span></samp></h2>
+
+<p><a name="index-running-bbe-4"></a><a name="index-using-5"></a>
+<samp><span class="command">bbe</span></samp> accepts several commands to operate on blocks. Commands are
+executed in the same order as they appear in command line or in a script file. 
+Order is significant, because the changes made to current byte by previous commands are
+seen by next commands.
+
+<ul class="menu">
+<li><a accesskey="1" href="#Invocation">Invocation</a>:       Program invocation
+<li><a accesskey="2" href="#Block">Block</a>:            Block definition
+<li><a accesskey="3" href="#Commands">Commands</a>:         bbe commands
+<li><a accesskey="4" href="#Limits">Limits</a>:           Limitations
+</ul>
+
+<div class="node">
+<a name="Invocation"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Block">Block</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Invoking-bbe">Invoking bbe</a>
+
+</div>
+
+<h3 class="section">3.1 Program invocation</h3>
+
+<p><a name="index-options-6"></a>
+The format for running the <samp><span class="command">bbe</span></samp> program is:
+
+<pre class="example">     bbe <var>option</var> ...
+</pre>
+   <p><code>bbe</code> supports the following options:
+
+<!-- Formatting copied from the Texinfo 4.0 manual. -->
+     <dl>
+<dt><code>-b </code><var>BLOCK</var><dt><code>--block=</code><var>BLOCK</var><dd>Block definition.
+
+     <br><dt><code>-e </code><var>COMMAND</var><dt><code>--expression=</code><var>COMMAND</var><dd>Add command(s) to the commands to be executed. Commands must be separated by semicolon.
+
+     <br><dt><code>-f </code><var>script-file</var><dt><code>--file=</code><var>script-file</var><dd>Add commands from <var>script-file</var> to the commands to be executed.
+
+     <br><dt><code>-o </code><var>file</var><dt><code>--output=</code><var>file</var><dd>Write output to <var>file</var> instead of standard output.
+
+     <br><dt><code>-s</code><dt><code>--suppress</code><dd>Suppress printing of normal output, print only block contents.
+
+     <br><dt><code>-?</code><dt><code>--help</code><dd>Print an informative help message describing the options and then exit
+successfully.
+
+     <br><dt><code>-V</code><dt><code>--version</code><dd>Print the version number of <samp><span class="command">bbe</span></samp> and then exit successfully. 
+</dl>
+
+   <p>All remaining options are names of input files, if no input files are specified or <code>-</code> is given, then the standard input is read.
+
+<div class="node">
+<a name="Block"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Commands">Commands</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Invocation">Invocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Invoking-bbe">Invoking bbe</a>
+
+</div>
+
+<h3 class="section">3.2 Block definition</h3>
+
+<p><a name="index-block-7"></a>
+<samp><span class="command">bbe</span></samp> devides the input stream to blocks defined by the <code>-b</code> option. If block is
+not defined, the whole input stream is considered as one block. Commands have effect only inside a block, rest of the input stream
+remains untouched. Currently <samp><span class="command">bbe</span></samp> supports only one block definition per invocation. If input stream consists of different blocks,
+several <samp><span class="command">bbe</span></samp>s can be combined in a pipeline.
+
+   <p>A block can be defined several ways:
+
+     <dl>
+<dt><var>N</var><code>:</code><var>M</var><dd>Block starts at offset <var>N</var> of input stream (first byte is 0). Block is <var>M</var> bytes long. This definition allows
+only one block to be defined.
+
+     <br><dt><code>:</code><var>M</var><dd>The whole input stream is divided to <var>M</var>-size blocks.
+
+     <br><dt><code>/</code><var>start</var><code>/:/</code><var>stop</var><code>/</code><dd>Blocks start with sequence <var>start</var> and end with sequence <var>stop</var>. Both <var>start</var> and <var>stop</var> are included to blocks.
+
+     <br><dt><code>/</code><var>start</var><code>/:</code><dd>Blocks start with sequence <var>start</var> and ends at next occurrence of <var>start</var>. Only the first <var>start</var> is included to block.
+
+     <br><dt><code>:/</code><var>stop</var><code>/</code><dd>Blocks start at the beginning of input stream or after the end of previous block. Block ends at first occurrence of <var>stop</var>. 
+Only the last <var>stop</var> is included to blocks. 
+</dl>
+
+   <p>It is possible to use c-like byte values in <var>N</var>, <var>M</var>, <var>start</var> and <var>stop</var>. 
+Values in <var>start</var> and <var>stop</var> must be escaped with <code>\</code>, <code>\</code> can be escaped as <code>\\</code>.
+
+   <p>Byte values can be expressed in decimal, octal or hexadecimal e.g. in <var>start</var> and <var>stop</var>:
+
+     <dl>
+<dt><code>\123, \32 or \0</code><dd>Decimal values
+
+     <br><dt><code>\012, \08 or \0278</code><dd>Octal values
+
+     <br><dt><code>\x0a, \x67 or \xff</code><dd>Hexadecimal values
+</dl>
+
+   <p>Also escape code <code>\y</code> can be used. Decimal values of <code>\y</code>'s:
+
+     <dl>
+<dt><code>\a</code><dd>7
+
+     <br><dt><code>\b</code><dd>8
+
+     <br><dt><code>\t</code><dd>9
+
+     <br><dt><code>\n</code><dd>10
+
+     <br><dt><code>\v</code><dd>11
+
+     <br><dt><code>\f</code><dd>12
+
+     <br><dt><code>\r</code><dd>13
+
+     <br><dt><code>\;</code><dd>59<br>Semicolon must be escaped, because it is a command delimitter. 
+</dl>
+
+   <p>Values of <var>N</var> and <var>M</var> can be given in decimal, octal and hexadecimal:
+
+     <dl>
+<dt><code>123, 32 or 112232</code><dd>Decimal values
+
+     <br><dt><code>0128, 08123 or 0</code><dd>Octal values
+
+     <br><dt><code>x456a, x167 or xffde</code><dd>Hexadecimal values
+</dl>
+
+<div class="node">
+<a name="Commands"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Limits">Limits</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Block">Block</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Invoking-bbe">Invoking bbe</a>
+
+</div>
+
+<h3 class="section">3.3 <samp><span class="command">bbe</span></samp> commands</h3>
+
+<p><a name="index-commands-8"></a>
+Commands in <samp><span class="command">bbe</span></samp> can be divided in two groups: Block related commands
+and byte related commands. Block related commands operate at block level e.g. remove a block. 
+Byte related commands work allways inside a block and they don't have effect beyond the block boundaries.
+
+   <p>Same escape codes for byte values in <var>string</var>s can be used as in <var>start</var> and <var>stop</var> of block definition.
+
+<h4 class="subheading">Block commands are:</h4>
+
+     <dl>
+<dt><code>I </code><var>string</var><dd>Write the <var>string</var> to output stream before the block.
+
+     <br><dt><code>D [</code><var>N</var><code>]</code><dd>Delete the <var>N</var>'th block. If <var>N</var> is not defined all blocks are deleted from output stream. 
+<strong>Note</strong>: First block is number one.
+
+     <br><dt><code>A </code><var>string</var><dd>Write the <var>string</var> to output stream after the block.
+
+     <br><dt><code>J </code><var>N</var><dd>Commands appearing after this command have no effect until <var>N</var> blocks are found. Means "Jump first <var>N</var> blocks". 
+<strong>Note</strong>: Commands that are defined before this command have effect on every block.
+
+     <br><dt><code>L </code><var>N</var><dd>Commands appearing after this command have no effect after <var>N</var> blocks are found. Means "Leave blocks after <var>N</var>'th block". 
+<strong>Note</strong>: Commands that are defined before this command have effect on every block.
+
+     <br><dt><code>N</code><dd>Before block contents the file name where the current block starts is printed with colon.
+
+     <br><dt><code>F </code><var>f</var><dd>Before block contents the current stream offset and colon is printed in format specified by <var>f</var>. 
+Stream offset starts at zero. <var>f</var> can have one of following values:
+          <dl>
+<dt><var>H</var><dd>Hexadecimal.
+
+          <br><dt><var>D</var><dd>Decimal.
+
+          <br><dt><var>O</var><dd>Octal. 
+</dl>
+
+     <br><dt><code>B </code><var>f</var><dd>Before block contents the current block number and colon is printed in format specified by <var>f</var>. 
+Block numbering starts at one. <var>f</var> can have one of the sames codes as <code>F</code>-command.
+
+     <br><dt><code>&gt; </code><samp><span class="file">file</span></samp><dd>Before printing a block, the contents of file <samp><span class="file">file</span></samp> is printed.
+
+     <br><dt><code>&lt; </code><samp><span class="file">file</span></samp><dd>After printing a block, the contents of file <samp><span class="file">file</span></samp> is printed. 
+</dl>
+
+<h4 class="subheading">Byte commands are:</h4>
+
+<p><strong>Note</strong>: The <var>n</var> in byte commands is offset from the beginning of current block, first byte is number zero.
+
+     <dl>
+<dt><code>c </code><var>from</var> <var>to</var><dd>Converts bytes from <var>from</var> to <var>to</var>. Currently supported formats are:
+          <dl>
+<dt><code>ASC</code><dd>Ascii
+
+          <br><dt><code>BCD</code><dd>Binary Coded Decimal
+</dl>
+     <strong>Note</strong>: Bytes, that cannot be converted are passed through as they are. e.g. in ASC -&gt; BCD conversion, ASCII characters not
+in range <code>'0'</code> &ndash; <code>'9'</code> are not converted.
+
+     <br><dt><code>d </code><var>n</var> <var>m</var><code>|*</code><dd>Delete <var>m</var> bytes starting from the offset <var>n</var>. If * is defined instead of <var>m</var>, then
+all bytes of the block starting from <var>n</var> are deleted.
+
+     <br><dt><code>i </code><var>n</var> <var>string</var><dd>Insert <var>string</var> after byte number <var>n</var>.
+
+     <br><dt><code>j </code><var>n</var><dd>Commands appearing after <code>j</code>-command have no effect concerning bytes 0-<var>n</var> of the block.
+
+     <br><dt><code>l </code><var>n</var><dd>Commands appearing after <code>l</code>-command have no effect concerning bytes starting from the byte number <var>n</var> of the block.
+
+     <br><dt><code>u </code><var>n</var> <var>c</var><dd>All bytes from start of the block to offset <var>n</var> are replaced by <var>c</var>.
+
+     <br><dt><code>f </code><var>n</var> <var>c</var><dd>All bytes starting from offset <var>n</var> to the end of the block are replaced by <var>c</var>.
+
+     <br><dt><code>p </code><var>format</var><dd>Contents of block is printed in formats specified by <var>format</var>. <var>format</var> can contain following format codes:
+          <dl>
+<dt><var>H</var><dd>Hexadecimal.
+
+          <br><dt><var>D</var><dd>Decimal.
+
+          <br><dt><var>O</var><dd>Octal.
+
+          <br><dt><var>A</var><dd>Ascii, nonprintable characters are printed as space.
+
+          <br><dt><var>B</var><dd>Binary. 
+</dl>
+
+     <p><var>format</var> can contain several codes, values are then separated by hyphen.
+
+     <br><dt><code>r </code><var>n</var> <var>string</var><dd>Replace bytes with <var>string</var> starting at the byte number <var>n</var> of the block.
+
+     <br><dt><code>s/</code><var>search</var><code>/</code><var>replace</var><code>/</code><dd>All occurences of <var>search</var> are replaced by <var>replace</var>. <var>replace</var> can be empty. Separator <code>/</code> can be replaced by any
+character not present in <var>search</var> or <var>replace</var>.
+
+     <br><dt><code>w </code><samp><span class="file">file</span></samp><dd>Contents of blocks are written to file <samp><span class="file">file</span></samp>. <strong>Note</strong>: Data inserted by commands <code>A</code>, <code>I</code>,
+<code>&gt;</code> and <code>&lt;</code>
+are written to file <samp><span class="file">file</span></samp> and <code>j</code> and <code>l</code> commands have no effect on <code>w</code>-commands. Zero size files are not preserved.<br>
+Filename can contain format string <code>%B</code> or <code>%nB</code>, these format strings are replace by current block number (starting from one), causing every block to have it's own file. 
+In <code>%nB</code>, the <code>n</code> is field width in range 0-99. If <code>n</code> has a leading zero, then the block numbers will be left padded with zeroes.
+
+     <br><dt><code>y/</code><var>source</var><code>/</code><var>dest</var><code>/</code><dd>Translate bytes in <var>source</var> to the corresponding bytes in <var>dest</var>. <var>source</var> and <var>dest</var> must have equal length. 
+Separator <code>/</code> can be replaced by any character not present in <var>source</var> or <var>dest</var>.
+
+     <br><dt><code>&amp; </code><var>c</var><dd>Performs binary and with <var>c</var> on block contents.
+
+     <br><dt><code>| </code><var>c</var><dd>Performs binary or with <var>c</var> on block contents.
+
+     <br><dt><code>^ </code><var>c</var><dd>Performs exclusive or with <var>c</var> on block contents.
+
+     <br><dt><code>~</code><dd>Performs binary negation on block contents.
+
+     <br><dt><code>x</code><dd>Exchange the contents of nibbles (half an octet) of bytes. 
+</dl>
+
+<div class="node">
+<a name="Limits"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Commands">Commands</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Invoking-bbe">Invoking bbe</a>
+
+</div>
+
+<h3 class="section">3.4 Limitations</h3>
+
+<p><a name="index-big-files-9"></a><a name="index-limits-10"></a>
+At least in GNU/Linux <samp><span class="command">bbe</span></samp> should be able to handle big files (&gt; 4 GB), other
+systems are  not tested.
+
+   <p>There are however, some limitations in block and command definitions:
+
+     <dl>
+<dt><em>Strings in block definition</em><dt><em>Search string in </em><code>s</code><em> command</em><dd>are limited to <em>16384</em> bytes. 
+</dl>
+
+<div class="node">
+<a name="bbe-programs"></a>
+<p><hr>
+Next:&nbsp;<a rel="next" accesskey="n" href="#Problems">Problems</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#Invoking-bbe">Invoking bbe</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+
+</div>
+
+<h2 class="chapter">4 How <samp><span class="command">bbe</span></samp> works</h2>
+
+<p><samp><span class="command">bbe</span></samp> scans the input stream just once, so the last block may differ from the block definition, because <samp><span class="command">bbe</span></samp> doesn't
+'peek' the end of the input stream. Last block may be shorter than defined, e.g. if block is defined as &lsquo;<samp><span class="samp">/string/:128</span></samp>&rsquo;
+and if the end of input stream is found before 128'th byte of the last block is reached, the last block remains shorter.
+
+<h4 class="subheading">Basic execution cycle:</h4>
+
+     <ol type=1 start=1>
+<li>Start of the block is searched. If found, data before block is written to output stream (unless <samp><span class="option">-s</span></samp> is defined) and
+step 2 is executed.
+
+     <li>Block commands affecting the start of the block (<code>I</code>, <code>D</code>, <code>J</code>, <code>N</code>, <code>F</code>, <code>&gt;</code> and <code>B</code>) are executed.
+
+     <li>The block is scanned byte by byte and all byte commands (lower case letters) are executed. 
+<strong>Note</strong>: Commands are executed on results of previous commands, if e.g. the first byte of the block is deleted,
+the following  commands don't 'see' the removed byte.
+
+     <li>When end of the block is reached the end of the block commands (<code>A</code> and <code>&lt;</code>) are executed.
+
+     <li>Next block is searched, data between the blocks, if not suppressed with <samp><span class="option">-s</span></samp>, is written to output stream.
+     </ol>
+
+<h4 class="subheading">Few examples:</h4>
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">echo "The quick brown fox jumps over a lazy dog" | bbe -b "/The/:21" -e "j 4" -e "s/ /X/"</span></samp>&rsquo;<dd>Output is
+     <pre class="example">          The quickXbrownXfoxXjumps over a lazy dog
+</pre>
+     <p>The only block in this is
+     <pre class="example">          The quick brown fox j
+</pre>
+     <p>All spaces in the block are converted to X's, before conversion first 4 bytes are skipped.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">echo "The quick brown fox jumps over a lazy dog" | bbe -b ":/ /" -e "J 1" -e "A \x0a"</span></samp>&rsquo;<dd>Output is:
+     <pre class="example">          The quick
+          brown
+          fox
+          jumps
+          over
+          a
+          lazy
+          dog
+          
+</pre>
+     <p>All blocks end at space, a newline character is inserted after every block except the first block.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">echo "The quick brown fox jumps over a lazy dog" | bbe  -e "r 4 fast\x20" -e "s/f/c/"</span></samp>&rsquo;<dd>Output is:
+     <pre class="example">          The cast  brown cox jumps over a lazy dog
+</pre>
+     <p>Also the <code>f</code> in <code>fast</code> is converted to <code>c</code>.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">echo "1234567890" | bbe -b ":1"  -e "L 9" -e "A -"</span></samp>&rsquo;<dd>Output is
+     <pre class="example">          1-2-3-4-5-6-7-8-9-0
+</pre>
+     <p>Hyphen is inserted after every 1 byte long block,but not after 9'th block.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -s -b "/First line/:/Last line/" /tmp/text</span></samp>&rsquo;<dd>Print lines between sentences &lsquo;<samp><span class="samp">First line</span></samp>&rsquo; and &lsquo;<samp><span class="samp">Last line</span></samp>&rsquo;.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -s -b "%&lt;a %:%&lt;/a&gt;%" -e "s/\x0a/ /" -e "A \n" ./index.html</span></samp>&rsquo;<dd>Extract all links from <samp><span class="file">./index.html</span></samp>. To get one link per line,
+all newlines are converted to spaces and newline is added after every link.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "/\x5f\x28\x02/:10" -s  -e "F d"  -e "p h" -e "A \n" ./bindata</span></samp>&rsquo;<dd>10 bytes long sequences starting with values <code>x5f</code> <code>x28</code> and <code>x02</code> are printed as hex values. 
+Also the file offset is printed before each sequence and new line is added after every sequence. 
+Example output:
+     <pre class="example">          52688:x5f x28 x02 x32 x36 x5f x81 x64 x01 x93
+          68898:x5f x28 x02 x39 x46 x5f x81 x64 x41 x05
+          69194:x5f x28 x02 x42 x36 x5f x81 x64 x41 x05
+</pre>
+     <p><br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "/Linux/:5" -s -e "N;D;A \x0a" /bin/* | uniq</span></samp>&rsquo;<dd>Print the file names of those programs in /bin directory which contains word &lsquo;<samp><span class="samp">Linux</span></samp>&rsquo;. 
+Example output:
+     <pre class="example">          /bin/loadkeys:
+          /bin/mkbimage:
+          /bin/ps:
+          /bin/uname:
+</pre>
+     <p><br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "/\x5f\x81\x18\x06/:10" -s -e "B d;d 0 4;c BCD ASC;A \n" ./bindata</span></samp>&rsquo;<dd>Print BCD numbers and their block numbers in ascii format. Numbers start with sequence <code>x5f</code> <code>x81</code> <code>x18</code> <code>x06</code>. 
+The start sequence is not printed.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "/\x5f/:2" -e "j 1;&amp; \xf0" -o newdata bindata</span></samp>&rsquo;<dd>The least significant nybble of bytes after <code>x5f</code> is cleared.<br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "/\xff\xd8\xff/:/\xff\xd9/" -s -e "w pic%02B.jpg" -o /dev/null manual.pdf</span></samp>&rsquo;<dd>Extract jpg-images from pdf-file to separate jpg-files (assuming that the jpg start/stop sequences
+does not appear in other context than jpg-images). 
+Files will be named as <samp><span class="file">pic01.jpg</span></samp>, <samp><span class="file">pic02.jpg</span></samp>, <samp><span class="file">pic03.jpg</span></samp>,<small class="dots">...</small> <br>
+
+     <br><dt>&lsquo;<samp><span class="samp">bbe -b "_&lt;body&gt;_:_&lt;/body&gt;_" -s -o temp nicebody.html</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">bbe -b "_&lt;body&gt;_:_&lt;/body&gt;_" -e "D;&lt; temp" -o tmpindex.html index.html</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">mv tmpindex.html index.html</span></samp>&rsquo;<dd>The body part of the html-document <samp><span class="file">index.html</span></samp> is replaced by the body of the document <samp><span class="file">nicebody.html</span></samp>. 
+</dl>
+
+<div class="node">
+<a name="Problems"></a>
+<p><hr>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="#bbe-programs">bbe programs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="#Top">Top</a>
+
+</div>
+
+<h2 class="chapter">5 Reporting Bugs</h2>
+
+<p><a name="index-bugs-11"></a><a name="index-problems-12"></a>
+If you find a bug in <samp><span class="command">bbe</span></samp>, please send electronic mail to
+<a href="mailto:tjsa@iki.fi">tjsa@iki.fi</a>.  Include the version number, which you can find by
+running &lsquo;<samp><span class="samp">bbe&nbsp;--version</span></samp>&rsquo;<!-- /@w -->.  Also include in your message the
+output that the program produced and the output you expected.
+
+   <p>If you have other questions, comments or suggestions about
+<samp><span class="command">bbe</span></samp>, contact the author via electronic mail to
+<a href="mailto:tjsa@iki.fi">tjsa@iki.fi</a>.  The author will try to help you out, although he
+may not have time to fix your problems.
+
+   <div class="contents">
+<h2>Table of Contents</h2>
+<ul>
+<li><a name="toc_Top" href="#Top">bbe</a>
+<li><a name="toc_Overview" href="#Overview">1 Preliminary information</a>
+<li><a name="toc_Samples" href="#Samples">2 Samples using <samp><span class="command">bbe</span></samp></a>
+<li><a name="toc_Invoking-bbe" href="#Invoking-bbe">3 How to run <samp><span class="command">bbe</span></samp></a>
+<ul>
+<li><a href="#Invocation">3.1 Program invocation</a>
+<li><a href="#Block">3.2 Block definition</a>
+<li><a href="#Commands">3.3 <samp><span class="command">bbe</span></samp> commands</a>
+<li><a href="#Limits">3.4 Limitations</a>
+</li></ul>
+<li><a name="toc_bbe-programs" href="#bbe-programs">4 How <samp><span class="command">bbe</span></samp> works</a>
+<li><a name="toc_Problems" href="#Problems">5 Reporting Bugs</a>
+</li></ul>
+</div>
+
+</body></html>
+

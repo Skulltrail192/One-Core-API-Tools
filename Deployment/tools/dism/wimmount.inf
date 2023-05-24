@@ -1,0 +1,90 @@
+;;;
+;;; IsDirTest
+;;;
+;;;
+;;; Copyright (c) 1999 - 2001, Microsoft Corporation
+;;;
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = "ActivityMonitor"                         ;This is determined by the work this filter driver does
+ClassGuid   = {b86dff51-a31e-4bac-b3cf-e8cfe75c9fc2}    ;This value is determined by the Class
+Provider    = %Msft%
+DriverVer   = 07/26/2012,6.2.9200.16384
+
+
+[DestinationDirs]
+MiniFilter.SystemFiles  = 11            ;%windir%\system32
+MiniFilter.DriverFiles  = 12            ;%windir%\system32\drivers
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall]
+OptionDesc          = %ServiceDescription%
+CopyFiles           = MiniFilter.DriverFiles, MiniFilter.SystemFiles
+
+[DefaultInstall.Services]
+AddService          = %ServiceName%,,MiniFilter.Service
+
+;;
+;; Default uninstall sections
+;;
+
+[DefaultUninstall]
+DelFiles   = MiniFilter.DriverFiles, MiniFilter.SystemFiles
+
+[DefaultUninstall.Services]
+DelService = %ServiceName%,0x200      ;Ensure service is stopped before deleting
+
+;
+; Services Section
+;
+
+[MiniFilter.Service]
+DisplayName      = %ServiceName%
+Description      = %ServiceDescription%
+ServiceBinary    = %12%\%DriverName%.sys        ;%windir%\system32\drivers\
+Dependencies     = "FltMgr"
+ServiceType      = 2                            ;SERVICE_FILE_SYSTEM_DRIVER
+StartType        = 3                            ;SERVICE_DEMAND_START
+ErrorControl     = 1                            ;SERVICE_ERROR_NORMAL
+LoadOrderGroup   = "FSFilter Activity Monitor"
+AddReg           = MiniFilter.AddRegistry
+
+;
+; Registry Modifications
+;
+
+[MiniFilter.AddRegistry]
+HKR,,"DebugFlags",0x00010001 ,0x0
+HKR,"Instances","DefaultInstance",0x00000000,%DefaultInstance%
+HKR,"Instances\"%Instance1.Name%,"Altitude",0x00000000,%Instance1.Altitude%
+HKR,"Instances\"%Instance1.Name%,"Flags",0x00010001,%Instance1.Flags%
+
+;
+; Copy Files
+;
+
+[MiniFilter.DriverFiles]
+%DriverName%.sys,,,4
+
+[MiniFilter.SystemFiles]
+wimserv.exe,,,4
+
+;;
+;; String Section
+;;
+
+[Strings]
+Msft                    = "Microsoft Corporation"
+ServiceDescription      = "Wim Mounting Driver"
+ServiceName             = "wimmount"
+DriverName              = "wimmount"
+
+;Instances specific information.
+DefaultInstance         = "Wimmount Instance"
+Instance1.Name          = "Wimmount Instance"
+Instance1.Altitude      = "180700"
+Instance1.Flags         = 0x0              ; Allow all attachments
