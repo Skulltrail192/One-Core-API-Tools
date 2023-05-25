@@ -7,7 +7,7 @@ if "%engine%" == "" (
 )
 
 
-if exist "Sources\sources\boot.wim" (
+if exist "Sources\DVD\sources\boot.wim" (
 	REM Patch binaries with resources
 	call mount-boot-wim.bat	
 	

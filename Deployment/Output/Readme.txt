@@ -1,1 +1,1 @@
-This folder will be used to place created iso
+This folder contains outputs, including "ISO" folder, what is placed the Windows DVD created ISO

@@ -1,1 +1,1 @@
-This folder will be used to place Windows CD 
+This folder contains a folder what will be used to place Windows DVD sources, called "DVD"

@@ -18,7 +18,7 @@ IF %a%==1 (
 	
 	XCOPY res\ei.cfg "%~dp0Sources\sources" /Y /F
 
-	XCOPY res\license "%~dp0Sources\sources\license" /E /H /C /I /Y	
+	XCOPY res\license "%~dp0Sources\DVD\sources\license" /E /H /C /I /Y	
 
 	if exist "%~dp0BootWIM\sources" (	
 		XCOPY res\ei.cfg "%~dp0BootWIM\sources" /Y /F	
