@@ -1,0 +1,1 @@
+This folder will be used to mount Windows PE boot image
