@@ -1,8 +1,10 @@
 @echo off
 
-if "%engine%" == "" (
+if "%setenv%" == "" (
 	call setenv.bat
 )
+
+ECHO                                PHASE: Clean
 
 ECHO Cleanning some files from drive
 

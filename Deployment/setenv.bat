@@ -1,20 +1,40 @@
 @echo off
 
+cls
+
 call setdriveletter.bat
 
 cls
 
-ECHO Please insert the option what describe the setup engine what you want use:
-ECHO.
-ECHO 1.Windows Vista
-ECHO 2.Windows 7
-ECHO 3.Windows 10
-ECHO.
+if not exist "%letter%:\Program Files" (
+	ECHO The drive is not monted or not a Windows/Reactos compatible installation
+	Pause
+	exit
+)
 
-set /p a=
-IF %a%==1 SET engine=WinVista
-IF %a%==2 SET engine=Win7
-IF %a%==3 SET engine=Win10
+REM ECHO Please insert the option what describe the setup engine what you want use:
+REM ECHO.
+REM ECHO 1.Windows Vista
+REM ECHO 2.Windows 7
+REM ECHO 3.Windows 10
+REM ECHO.
+
+REM set /p a=
+REM IF %a%==1 SET engine=WinVista
+REM IF %a%==2 SET engine=Win7
+REM IF %a%==3 SET engine=Win10
+
+if exist "%letter%:\Windows\SysWOW64" (
+	set GUESTARCH=x64
+) else (
+	set GUESTARCH=x86
+)
+
+if exist "%WinDir%\SysWOW64" (
+	set ARCH=x64
+) else (
+	set ARCH=x86
+)
 
 cls
 
@@ -27,7 +47,7 @@ ECHO.
 set /p a=
 IF %a%==1 (
 	cls
-	ECHO Please insert the option what describe the setup engine what you want use:
+	ECHO Please insert the option what describe the setup Windows Edition what you want use:
 	ECHO.
 	ECHO 1.Windows XP Professional Edition
 	ECHO 2.Windows XP Home Edition
@@ -120,7 +140,12 @@ IF %a%==1 (
 IF %a%==2 (
 	if exist "%letter%:\Windows\Professional.xml" (
 		SET TARGETISO=WXPFPP_EN
-		SET Description=Windows XP Professional Edition
+		if %GUESTARCH% == "x86" (
+			SET Description=Windows XP Professional Edition
+		)		
+		if %GUESTARCH% == "x64" (
+			SET Description=Windows XP Professional x64 Edition
+		)	
 		SET flags=Professional
 		SET installationType=client		
 	)
@@ -169,26 +194,47 @@ IF %a%==2 (
 		SET installationType=client		
 	)
 	if exist "%letter%:\Windows\ServerEnterprise.xml" (
-		SET TARGETISO=POSRDY
-		SET Description=Windows Server 2003 Enterprise Edition
+		SET TARGETISO=WIN2K3FREE
 		SET flags=ServerEnterprise
+		if %GUESTARCH% == "x86" (
+			SET Description=Windows Server 2003 Enterprise Edition
+		)		
+		if %GUESTARCH% == "x64" (
+			SET Description=Windows Server 2003 Enterprise x64 Edition
+		)
 		SET installationType=server		
 	)
 	if exist "%letter%:\Windows\ServerDataCenter.xml" (
 		SET TARGETISO=WXPFPP_EN
-		SET Description=Windows Server 2003 DataCenter Edition
+		SET Description=Windows Server 2003 Datacenter Edition
+		if %GUESTARCH% == "x86" (
+			SET Description=Windows Server 2003 Datacenter Edition
+		)		
+		if %GUESTARCH% == "x64" (
+			SET Description=Windows Server 2003 Datacenter x64 Edition
+		)		
 		SET flags=ServerDataCenter
 		SET installationType=server		
 	)
 	if exist "%letter%:\Windows\ServerStandard.xml" (
 		SET TARGETISO=WXPFPP_EN
-		SET Description=Windows Server 2003 Standanrd Edition
+		if %GUESTARCH% == "x86" (
+			SET Description=Windows Server 2003 Standanrd Edition
+		)		
+		if %GUESTARCH% == "x64" (
+			SET Description=Windows Server 2003 Standanrd x64 Edition
+		)	
 		SET flags=ServerStandard
 		SET installationType=server		
 	)
 	if exist "%letter%:\Windows\ServerWeb.xml" (
 		SET TARGETISO=WXPFPP_EN
-		SET Description=Windows Server Web Edition
+		if %GUESTARCH% == "x86" (
+			SET Description=Windows Server 2003 Web Edition
+		)		
+		if %GUESTARCH% == "x64" (
+			SET Description=Windows Server 2003 Web Edition x64 Edition
+		)			
 		SET flags=ServerWeb
 		SET installationType=server		
 	)
@@ -196,15 +242,12 @@ IF %a%==2 (
 
 cls
 
-if exist "%letter%:\Windows\SysWOW64" (
-	set ARCH=amd64
-) else (
-	set ARCH=x86
-)
 
-SET diskfiles=Sources
+SET diskfiles=Sources\DVD\sources
 
 if not exist "%WinDir%\System32\drivers" (
 	REM Install DISM WIM Filter driver on XP / 2003 host
 	start /wait RUNDLL32.EXE SETUPAPI.DLL,InstallHinfSection DefaultInstall 132 %~dp0tools\wimfltr\%ARCH%\wimmount.inf >nul
 )
+
+SET setenv=true

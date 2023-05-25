@@ -1,19 +1,18 @@
 @echo off
 
-if "%engine%" == "" (
+if "%setenv%" == "" (
 	call setenv.bat
 )
 
-REM if exist "DiskFiles\%ARCH%\%engine%\efi\microsoft\boot\efisys.bin" (
-	REM "Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -bootdata:2#p0,e,b"DiskFiles\%ARCH%\%engine%\boot\etfsboot.com"#pEF,e,b"DiskFiles\%ARCH%\%engine%\efi\microsoft\boot\efisys.bin" "DiskFiles\%ARCH%\%engine%" "Output\ISO\%TARGETISO%_WIM.iso"
-REM ) else (
-	REM "Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -b"DiskFiles\%ARCH%\%engine%\boot\etfsboot.com" "DiskFiles\%ARCH%\%engine%" "Output\ISO\%TARGETISO%_WIM.iso"
-REM )
+cls
 
-if exist "Sources\efi\microsoft\boot\efisys.bin" (
-	"tools\Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -bootdata:2#p0,e,b"Sources\boot\etfsboot.com"#pEF,e,b"Sources\efi\microsoft\boot\efisys.bin" "Sources" "Output\ISO\%TARGETISO%_WIM.iso"
+ECHO                                PHASE: Create ISO
+
+ECHO Creating ISO...Please wait!
+if exist "%~dp0Sources\DVD\efi\microsoft\boot\efisys.bin" (
+	"%~dp0tools\Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -bootdata:2#p0,e,b"%~dp0Sources\DVD\boot\etfsboot.com"#pEF,e,b"%~dp0Sources\DVD\efi\microsoft\boot\efisys.bin" "%~dp0Sources\DVD" "%~dp0Output\ISO\%TARGETISO%.iso" >nul 2>nul
 ) else (
-	"tools\Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -b"Sources\boot\etfsboot.com" "Sources%" "Output\ISO\%TARGETISO%_WIM.iso"
+	"%~dp0tools\Oscdimg\%ARCH%\oscdimg.exe" -l"%TARGETISO%" -m -oc -u2 -udfver102 -b"%~dp0Sources\DVD\boot\etfsboot.com" "%~dp0Sources\DVD" "%~dp0Output\ISO\%TARGETISO%.iso" >nul 2>nul
 )
 
-pause
+ECHO Done!

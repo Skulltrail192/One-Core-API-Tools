@@ -2,9 +2,11 @@
 
 cls
 
-if "%engine%" == "" (
+if "%setenv%" == "" (
 	call setenv.bat
 )
+
+ECHO                     PHASE: Patch Binaries to deploy XP/2003
 
 ECHO Please choose if you want capure patch winsetup or it already did:
 ECHO.
@@ -14,13 +16,12 @@ ECHO.
 
 set /p a=
 IF %a%==1 (
-	cls
 	REM Mount Windows PE Setup Image  
 	REM %~dp0tools\dism\ImageX /mountrw "Sources\DVD\sources\boot.wim" 2 %~dp0BootWIM
 	
-	FOR /F "tokens=*" %%g IN ('tools\bincheck\bincheck.exe Sources\DVD\sources\winsetup.dll') do (SET binarch=%%g)
+	FOR /F "tokens=*" %%g IN ('tools\bincheck\bincheck.exe Sources\DVD\sources\winsetup.dll') do (SET binARCH=%%g)
 
-	if "%binarch%" == "32" (	
+	if "%binARCH%" == "32" (	
 		REM Patch Winsetup from cd sources
 
 		REM Patch WinSetup.dll on mounted image to allow install Windows XP/2003  - Try Vista or Win7 32 bits Setup 
@@ -58,7 +59,7 @@ IF %a%==1 (
 
 		ren "Sources\DVD\sources\winsetup1.dll" winsetup.dll
 	)
-	if "%binarch%" == "64" (
+	if "%binARCH%" == "64" (
 		REM REM Patch Winsetup from cd sources		
 		
 		REM Patch WinSetup.dll on mounted image to allow install Windows XP/2003  - Try Vista or Win7 64 bits Setup 
@@ -99,5 +100,5 @@ IF %a%==1 (
 		REM %~dp0tools\dism\ImageX /unmount /commit BootWIM
 	)
 	
-	XCOPY Sources\DVD\sources\winsetup.dll "%~dp0BootWIM\sources" /Y /F
+	XCOPY Sources\DVD\sources\winsetup.dll "%~dp0Boot\sources" /Y /F
 )

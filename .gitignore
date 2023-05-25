@@ -1,0 +1,10 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# exclude everything
+Deployment/Output/ISO/*
+
+# exclude everything
+Deployment/Sources/DVD/*
+
+# exclude everything
+Deployment/Boot/*

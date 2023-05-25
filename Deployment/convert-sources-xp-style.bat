@@ -2,7 +2,7 @@
 
 cls
 
-if "%engine%" == "" (
+if "%setenv%" == "" (
 	call setenv.bat
 )
 
