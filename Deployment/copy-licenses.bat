@@ -2,11 +2,17 @@
 
 cls
 
+ECHO                                PHASE: Copy Licenses
+
 if "%setenv%" == "" (
 	call setenv.bat
 )
 
-ECHO                                PHASE: Copy Licenses
+if not exist "Sources\DVD\sources" (
+	ECHO You must need place Windows DVD contents on "Sources\DVD\sources"
+	pause
+	goto :EOF
+)
 
 ECHO Please choose if you want copy licenes to support Windows Xp/2003 SKUs or already did it:
 ECHO.

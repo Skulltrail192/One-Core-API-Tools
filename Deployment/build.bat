@@ -1,25 +1,10 @@
 @echo off
 
-REM Admin Check
-if exist "%WinDir%\servicing" (
-	reg query "HKU\S-1-5-19\Environment" >nul
-	if not "%ERRORLEVEL%" EQU "0" (
-
-		echo.
-		echo This tool must be launched with Administrator permissions!
-		echo.
-		
-		echo  Press any key to exit...
-		pause >nul
-		goto :EOF
-
-	)
-)
-
 cls
 
 if not exist "Sources\DVD\sources\boot.wim" (
 	ECHO You must need place Windows DVD contents on "Sources\DVD\sources"
+	pause
 	exit
 )
 
@@ -28,8 +13,14 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
+REM Select drive-letter
+call set-drive-letter.bat
+
 REM Clean disk drive for pnf and log files
 call clean.bat
+
+REM Choose method to select sku
+call sku-selection-method.bat
 
 REM capture image
 call capture.bat

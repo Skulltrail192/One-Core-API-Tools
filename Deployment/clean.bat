@@ -1,10 +1,23 @@
 @echo off
 
+cls
+
+ECHO                                PHASE: Clean
+
 if "%setenv%" == "" (
 	call setenv.bat
 )
 
-ECHO                                PHASE: Clean
+if "%letter%" == "" (
+	call set-drive-letter.bat
+)
+
+if not exist "%letter%:\Program Files" (
+	ECHO The drive is not monted or not a Windows/Reactos compatible installation
+	set isMounted="true"
+	pause >nul	
+	goto :EOF
+)
 
 ECHO Cleanning some files from drive
 

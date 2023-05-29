@@ -4,6 +4,9 @@
 Deployment/Output/ISO/*
 
 # exclude everything
+Deployment/Output/WIM/*
+
+# exclude everything
 Deployment/Sources/DVD/*
 
 # exclude everything
