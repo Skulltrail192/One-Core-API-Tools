@@ -6,7 +6,7 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
-ECHO               		PHASE: Patch Binaries to deploy XP/2003
+ECHO               	  PHASE: Patch Binaries to deploy XP/2003
 
 ECHO Please choose if you want capure patch winsetup or it already did:
 ECHO.
@@ -14,7 +14,7 @@ ECHO 1.Patch winsetup.dll
 ECHO 2.Not patch winsetup.dll
 ECHO.
 
-set /p a=
+set /p a=Type option:
 IF %a%==1 (
 	REM Mount Windows PE Setup Image  
 	REM %~dp0tools\dism\ImageX /mountrw "Sources\DVD\sources\boot.wim" 2 %~dp0BootWIM
@@ -59,7 +59,9 @@ IF %a%==1 (
 	
 		del "Sources\DVD\sources\winsetup.dll"
 
-		ren "Sources\DVD\sources\winsetup1.dll" winsetup.dll		
+		ren "Sources\DVD\sources\winsetup1.dll" winsetup.dll
+		
+		goto :Terminate
 	)
 	if "%binARCH%" == "64" (
 		REM REM Patch Winsetup from cd sources		
@@ -98,11 +100,52 @@ IF %a%==1 (
 		del "Sources\DVD\sources\winsetup.dll"
 
 		ren "Sources\DVD\sources\winsetup1.dll" winsetup.dll	
+		
+		goto :Terminate
 	)
 	
 	REM "%~dp0tools\PEChecksum\PE.exe" -c Sources\DVD\sources\winsetup.dll
-	
+
+:Terminate	
+	if not exist "%~dp0Boot\sources" (
+		cls
+		
+		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
+		
+		call choose-mount-boot-wim.bat			
+	)
+
 	if exist "%~dp0Boot\sources" (
-		XCOPY /s Sources\DVD\sources\winsetup.dll "%~dp0Boot\sources" /Y /F
+		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\winsetup.dll" /A >nul
+		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\winsetup.dll" /grant *S-1-5-32-544:F >nul	
+		if not exist "Boot\sources\winsetup.bak" (
+			REM Windows 10 1904 and above has issue causing BSOD if you try replace or delete system dlls directly, so, only rename
+			ren "Boot\sources\winsetup.dll" winsetup.bak
+			XCOPY /s Sources\DVD\sources\winsetup.dll "%~dp0Boot\sources" /Y /F	
+		)
+		
+		reg load HKLM\TempSoftware "Boot\Windows\system32\config\SOFTWARE" >nul
+		reg load HKLM\TEMPSYSTEM "Boot\Windows\system32\config\SYSTEM" >nul	
+		REM ; Windows 11 Bypass config
+		reg add "HKLM\TEMPSYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSYSTEM\Setup\LabConfig" /v "BypassCPUCheck" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSYSTEM\Setup\LabConfig" /v "BypassRAMCheck" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSYSTEM\Setup\MoSetup" /v "AllowUpgradesWithUnsupportedTPMOrCPU" /t REG_DWORD /d "1" /f >nul
+		reg add "HKLM\TEMPSOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v "BypassNRO" /t REG_DWORD /d "1" /f >nul
+
+		reg unload HKLM\TEMPSYSTEM >nul	
+		reg unload HKLM\TempSoftware >nul 		
+		
+		pause
+		
+		cls
+		
+		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
+		
+		call choose-unmount-boot-wim.bat				
 	)	
+
+	goto :EOF
 )

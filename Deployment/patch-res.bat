@@ -22,15 +22,17 @@ ECHO.
 
 if not exist "%~dp0Boot\sources" (
 	ECHO Warning: you not mounted Boot WIM, no changes to Windows PE Setup Image, only main sources.
+	
+	call choose-mount-boot-wim.bat	
 )
 
-set /p a=
+set /p a=Type option:
 IF %a%==1 (
 	cls	
 	
-	ECHO Patching binaries with XP/2003 resources..
+	ECHO                 PHASE: Patch Resources to deploy XP/2003	
 	
-	ECHO "%installationType%"
+	ECHO Patching binaries with XP/2003 resources..
 
 	if "%installationType%" == "client" (
 		REM comment for now patch icon of setup.exe because cause a crazy error with Windows 8 or above setup engine, related with not present driver
@@ -43,6 +45,7 @@ IF %a%==1 (
 			XCOPY res\client\winpe.bmp "%~dp0Boot\Windows\System32" /Y /F
 			XCOPY res\client\setup.bmp "%~dp0Boot\Windows\System32" /Y /F
 		)
+		goto :Terminate
 	)
 	if "%installationType%" == "server" (
 		REM comment for now patch icon of setup.exe because cause a crazy error with Windows 8 or above setup engine, related with not present driver	
@@ -55,20 +58,35 @@ IF %a%==1 (
 			XCOPY res\server\winpe.bmp "%~dp0Boot\Windows\System32" /Y /F
 			XCOPY res\server\setup.bmp "%~dp0Boot\Windows\System32" /Y /F
 		)
-	)
-		
-	if exist "%~dp0Boot\sources" (
-		
-		XCOPY Sources\DVD\sources\w32uiimg.dll "%~dp0Boot\sources" /Y /F
-			
-		XCOPY Sources\DVD\sources\spwizimg.dll "%~dp0Boot\sources" /Y /F	
-			
-		XCOPY Sources\DVD\sources\setup.exe "%~dp0Boot\sources" /Y /F
+		goto :Terminate
 	)
 	
+:Terminate	
+	if exist "%~dp0Boot\sources" (
+		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\w32uiimg.dll" /A >nul
+		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\w32uiimg.dll" /grant *S-1-5-32-544:F >nul	
+		if not exist "Boot\sources\w32uiimg.dll" (
+			ren "Boot\sources\w32uiimg.dll" w32uiimg1.dll	
+			XCOPY Sources\DVD\sources\w32uiimg.dll "%~dp0Boot\sources" /Y /F	
+		)	
+		
+		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\spwizimg.dll" /A >nul
+		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\spwizimg.dll" /grant *S-1-5-32-544:F >nul	
+		if not exist "Boot\sources\spwizimg1.dll" (
+			ren "Boot\sources\spwizimg.dll" spwizimg1.dll	
+			XCOPY Sources\DVD\sources\spwizimg.dll "%~dp0Boot\sources" /Y /F		
+		)		
+			
+		REM XCOPY Sources\DVD\sources\setup.exe "%~dp0Boot\sources" /Y /F
+
+		
+		cls
+		
+		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
+		
+		call choose-unmount-boot-wim.bat				
+	)	
+
 	ECHO Done!
+	goto :EOF
 )
-
-
-
-
