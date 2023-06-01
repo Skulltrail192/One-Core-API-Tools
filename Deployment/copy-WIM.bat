@@ -4,7 +4,7 @@ ECHO                            PHASE: Copying image to Sources
 
 ECHO Copying install.wim to Windows DVD source folder
 
-if exist "%~dp0Output\WIM\install.esd" (
+if exist "%~dp0Sources\DVD\sources\install.esd" (
 	del "%~dp0Sources\DVD\sources\install.esd"
 )
 

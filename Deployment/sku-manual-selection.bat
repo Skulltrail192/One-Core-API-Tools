@@ -105,4 +105,11 @@ cls
 	ECHO %TARGETISO%
 	ECHO %Description%
 	ECHO %flags%
-	ECHO %installationType%	
+	ECHO %installationType%
+
+	if "%flags%" == "" (
+		SET TARGETISO=Windows
+		SET Description=Windows OS Image
+		SET flags=Windows Foundation
+		SET installationType=client
+	)

@@ -117,3 +117,10 @@ cls
 		SET flags=ServerWeb
 		SET installationType=server		
 	)
+	
+	if "%flags%" == "" (
+		SET TARGETISO=Windows
+		SET Description=Windows OS Image
+		SET flags=Windows Foundation
+		SET installationType=client
+	)	
