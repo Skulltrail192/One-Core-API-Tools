@@ -2,7 +2,7 @@
 
 cls
 
-ECHO                                PHASE: Clean
+ECHO                                PHASE: Clean Drive
 
 if "%setenv%" == "" (
 	call setenv.bat

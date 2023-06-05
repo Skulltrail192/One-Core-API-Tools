@@ -10,6 +10,12 @@ if "%installationType%" == "" (
 	call sku-selection-method.bat
 )
 
+if not exist "%~dp0Boot\sources" (
+	ECHO Warning: you not mounted Boot WIM, no changes to Windows PE Setup Image, only main sources.
+	
+	call choose-mount-boot-wim.bat	
+)
+
 cls
 
 ECHO                 PHASE: Patch Resources to deploy XP/2003
@@ -19,12 +25,6 @@ ECHO.
 ECHO 1.Patch binaries
 ECHO 2.Not patch binaries
 ECHO.
-
-if not exist "%~dp0Boot\sources" (
-	ECHO Warning: you not mounted Boot WIM, no changes to Windows PE Setup Image, only main sources.
-	
-	call choose-mount-boot-wim.bat	
-)
 
 set /p a=Type option:
 IF %a%==1 (

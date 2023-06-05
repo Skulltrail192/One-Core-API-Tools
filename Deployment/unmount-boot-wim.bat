@@ -14,6 +14,6 @@ if exist "Sources\DVD\sources\boot.wim" (
 	
 	cls
 
-	REM ECHO                                PHASE: Compressing image	
-	REM "tools\WimLib\%ARCH%\wimlib-imagex.exe" optimize "%~dp0Sources\DVD\sources\boot.wim" --compress=LZX:100	
+	ECHO                          PHASE: Compressing Boot image	
+	"tools\WimLib\%ARCH%\wimlib-imagex.exe" optimize "%~dp0Sources\DVD\sources\boot.wim" --compress=LZX:100	
 )

@@ -46,7 +46,7 @@ ECHO Option 1
 
 cls
 
-ECHO                            PHASE: Compressing Boot image	
+ECHO                            PHASE: Compressing Windows image	
 "tools\WimLib\%ARCH%\wimlib-imagex.exe" optimize "%~dp0Output\WIM\install.wim" --compress=LZX:100
 
 cls
