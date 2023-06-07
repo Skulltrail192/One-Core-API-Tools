@@ -8,15 +8,21 @@ if "%setenv%" == "" (
 
 if "%installationType%" == "" (
 	call sku-selection-method.bat
+	cls
 )
+
 
 if not exist "%~dp0Boot\sources" (
 	ECHO Warning: you not mounted Boot WIM, no changes to Windows PE Setup Image, only main sources.
 	
+	pause
+	
+	cls
+	
 	call choose-mount-boot-wim.bat	
-)
+	cls
 
-cls
+)
 
 ECHO                 PHASE: Patch Resources to deploy XP/2003
 
@@ -72,20 +78,31 @@ IF %a%==1 (
 			XCOPY Sources\DVD\sources\arunimg.dll "%~dp0Boot\sources" /Y /F	
 		)	
 		
+		if exist "Boot\sources\arunimg1.dll" (
+			XCOPY Sources\DVD\sources\arunimg.dll "%~dp0Boot\sources" /Y /F	
+		)			
+		
 		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\spwizimg.dll" /A >nul
 		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\spwizimg.dll" /grant *S-1-5-32-544:F >nul	
 		if not exist "Boot\sources\spwizimg1.dll" (
 			ren "Boot\sources\spwizimg.dll" spwizimg1.dll	
 			XCOPY Sources\DVD\sources\spwizimg.dll "%~dp0Boot\sources" /Y /F		
 		)	
+		
+		if exist "Boot\sources\spwizimg1.dll" (
+			XCOPY Sources\DVD\sources\spwizimg.dll "%~dp0Boot\sources" /Y /F		
+		)			
 
 		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\w32uiimg.dll" /A >nul
 		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\w32uiimg.dll" /grant *S-1-5-32-544:F >nul	
-		if not exist "Boot\sources\w32uiimg.dll" (
+		if not exist "Boot\sources\w32uiimg1.dll" (
 			ren "Boot\sources\w32uiimg.dll" w32uiimg1.dll	
 			XCOPY Sources\DVD\sources\w32uiimg.dll "%~dp0Boot\sources" /Y /F	
 		)	
-				
+			
+		if exist "Boot\sources\w32uiimg1.dll" (
+			XCOPY Sources\DVD\sources\w32uiimg.dll "%~dp0Boot\sources" /Y /F	
+		)				
 			
 		REM XCOPY Sources\DVD\sources\setup.exe "%~dp0Boot\sources" /Y /F
 

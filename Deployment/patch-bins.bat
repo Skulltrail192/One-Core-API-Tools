@@ -124,6 +124,11 @@ IF %a%==1 (
 			XCOPY /s Sources\DVD\sources\winsetup.dll "%~dp0Boot\sources" /Y /F	
 		)
 		
+		if exist "Boot\sources\winsetup.bak" (
+			REM Windows 10 1904 and above has issue causing BSOD if you try replace or delete system dlls directly, so, only rename
+			XCOPY /s Sources\DVD\sources\winsetup.dll "%~dp0Boot\sources" /Y /F	
+		)		
+		
 		reg load HKLM\TempSoftware "Boot\Windows\system32\config\SOFTWARE" >nul
 		reg load HKLM\TEMPSYSTEM "Boot\Windows\system32\config\SYSTEM" >nul	
 		REM ; Windows 11 Bypass config

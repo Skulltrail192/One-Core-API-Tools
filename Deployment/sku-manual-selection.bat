@@ -24,6 +24,32 @@ cls
 	ECHO 10.Windows Server 2003 DataCenter Edition
 	ECHO 11.Windows Server 2003 Standanrd Edition
 	ECHO 12.Windows Server Web Edition
+	ECHO 13.Windows XP Embedded
+	ECHO 14.Windows Longhorn Professional Edition
+	ECHO 15.Windows Longhorn Server Edition
+	ECHO 16.Windows Vista Starter
+	ECHO 17.Windows Vista Business
+	ECHO 18.Windows Vista Home Basic
+	ECHO 19.Windows Vista Home Premium
+	ECHO 20.Windows Vista Enterprise
+	ECHO 21.Windows Vista Ultimate
+	ECHO 22.Windows 7 Starter
+	ECHO 23.Windows 7 Professional
+	ECHO 24.Windows 7 Home Basic
+	ECHO 25.Windows 7 Home Premium
+	ECHO 26.Windows 7 Enterprise
+	ECHO 27.Windows 7 Ultimate	
+	ECHO 28.Windows 8	
+	ECHO 29.Windows 8 Core	
+	ECHO 30.Windows 8 Pro	
+	ECHO 31.Windows 8 Pro With Media Center
+	ECHO 32.Windows 10 Home
+	ECHO 33.Windows 10 Pro
+	ECHO 34.Windows 10 Pro Education
+	ECHO 35.Windows 10 Pro for Workstations
+	ECHO 36.Windows 10 Enterprise
+	ECHO 37.Windows 10 LTSC
+	ECHO 38.Reactos
 	ECHO.
 	
 	set /p a=Type option:
@@ -100,12 +126,24 @@ cls
 		SET flags=ServerWeb
 		SET installationType=server
 	)	
-	
-	REM ECHO %op%	
-	ECHO %TARGETISO%
-	ECHO %Description%
-	ECHO %flags%
-	ECHO %installationType%
+	IF %a%==13 (
+		SET TARGETISO=WXPFPP_EN
+		SET Description=Windows XP Embedded
+		SET flags=ServerWeb
+		SET installationType=client
+	)	
+	IF %a%==14 (
+		SET TARGETISO=LB1PFRE_EN
+		SET Description=Windows Longhorn Professional
+		SET flags=Professional
+		SET installationType=client
+	)
+	IF %a%==15 (
+		SET TARGETISO=LMBFRE_EN
+		SET Description=Windows Longhorn Server
+		SET flags=ServerEnterprise
+		SET installationType=server
+	)
 
 	if "%flags%" == "" (
 		SET TARGETISO=Windows

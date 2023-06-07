@@ -1,5 +1,7 @@
 @echo off
 
+cd %~dp0
+
 cls
 
 if not exist "Sources\DVD\sources\boot.wim" (

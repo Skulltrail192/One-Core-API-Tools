@@ -25,11 +25,11 @@ cls
 	)
 	
 	if exist "%letter%:\Windows\Professional.xml" (
-		if %GUESTARCH% == "x86" (
+		if %GUESTARCH% == x86 (
 			SET TARGETISO=WXPFPP_EN			
 			SET Description=Windows XP Professional Edition
 		)		
-		if %GUESTARCH% == "x64" (
+		if %GUESTARCH% == x64 (			
 			SET TARGETISO=AX2PXFPP_EN
 			SET Description=Windows XP Professional x64 Edition
 		)	
@@ -75,10 +75,10 @@ cls
 	if exist "%letter%:\Windows\ServerEnterprise.xml" (
 		SET TARGETISO=WIN2K3FREE
 		SET flags=ServerEnterprise
-		if %GUESTARCH% == "x86" (
+		if %GUESTARCH% == x86 (
 			SET Description=Windows Server 2003 Enterprise Edition
 		)		
-		if %GUESTARCH% == "x64" (
+		if %GUESTARCH% == x64 (
 			SET Description=Windows Server 2003 Enterprise x64 Edition
 		)
 		SET installationType=server		
@@ -86,10 +86,10 @@ cls
 	if exist "%letter%:\Windows\ServerDataCenter.xml" (
 		SET TARGETISO=WXPFPP_EN
 		SET Description=Windows Server 2003 Datacenter Edition
-		if %GUESTARCH% == "x86" (
+		if %GUESTARCH% == x86 (
 			SET Description=Windows Server 2003 Datacenter Edition
 		)		
-		if %GUESTARCH% == "x64" (
+		if %GUESTARCH% == x64 (
 			SET Description=Windows Server 2003 Datacenter x64 Edition
 		)		
 		SET flags=ServerDataCenter
@@ -97,10 +97,10 @@ cls
 	)
 	if exist "%letter%:\Windows\ServerStandard.xml" (
 		SET TARGETISO=WXPFPP_EN
-		if %GUESTARCH% == "x86" (
+		if %GUESTARCH% == x86 (
 			SET Description=Windows Server 2003 Standanrd Edition
 		)		
-		if %GUESTARCH% == "x64" (
+		if %GUESTARCH% == x64 (
 			SET Description=Windows Server 2003 Standanrd x64 Edition
 		)	
 		SET flags=ServerStandard
@@ -108,10 +108,10 @@ cls
 	)
 	if exist "%letter%:\Windows\ServerWeb.xml" (
 		SET TARGETISO=WXPFPP_EN
-		if %GUESTARCH% == "x86" (
+		if %GUESTARCH% == x86 (
 			SET Description=Windows Server 2003 Web Edition
 		)		
-		if %GUESTARCH% == "x64" (
+		if %GUESTARCH% == x64 (
 			SET Description=Windows Server 2003 Web Edition x64 Edition
 		)			
 		SET flags=ServerWeb
@@ -123,4 +123,4 @@ cls
 		SET Description=Windows OS Image
 		SET flags=Windows Foundation
 		SET installationType=client
-	)	
+	)
