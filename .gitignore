@@ -9,8 +9,14 @@ Deployment/Output/WIM/*
 # exclude everything
 Deployment/Sources/DVD/*
 
+# exception to the rule
+!Deployment/Sources/DVD/Readme.txt 
+
 # exclude everything
 Deployment/Boot/*
+
+# exception to the rule
+!Deployment/Boot/Readme.txt 
 
 # exclude everything
 Deployment/tools/ResHack/ResourceHacker.log
