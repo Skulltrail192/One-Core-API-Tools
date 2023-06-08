@@ -17,7 +17,7 @@ cls
 ECHO                             PHASE: Capture or Append
 
 if not exist "%letter%:\Program Files" (
-	ECHO The drive is not monted or not a Windows/Reactos compatible installation
+	ECHO The drive is not mounted or not a Windows/Reactos compatible installation
 	pause		
 	cls
 	call copy-WIM.bat

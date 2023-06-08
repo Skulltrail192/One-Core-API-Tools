@@ -24,6 +24,9 @@ set /p a=Type option:
 IF %a%==1 (
 	cls
 	
+	rd /s /q %~dp0Sources\DVD\sources\license
+	rd /s /q %~dp0Boot\sources\license
+	
 	XCOPY res\ei.cfg "%~dp0Sources\DVD\sources" /Y /F
 
 	XCOPY res\license "%~dp0Sources\DVD\sources\license" /E /H /C /I /Y	
