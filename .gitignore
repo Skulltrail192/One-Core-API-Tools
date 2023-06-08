@@ -20,3 +20,6 @@ Deployment/Boot/*
 
 # exclude everything
 Deployment/tools/ResHack/ResourceHacker.log
+
+# exclude everything
+Deployment/tools/ResHack/ResourceHacker.ini
