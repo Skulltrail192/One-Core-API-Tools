@@ -1,5 +1,7 @@
 @echo off
 
+ECHO                       PHASE: Choose unmount Boot WIM
+
 ECHO Do want you unmount Windows PE Setup Image of Boot WIM?
 ECHO.
 ECHO 1.Yes

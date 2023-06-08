@@ -35,11 +35,12 @@ ECHO.
 
 set /p a=Type option:
 IF %a%==1 (	
+	cls
 	ECHO                                PHASE: Capturing image
 	"tools\ImageX\x86\imagex.exe" /capture /flags "%flags%" %letter%: "%~dp0Output\WIM\install.wim" "%Description%" "%Description%"
 )
 IF %a%==2 (
-ECHO Option 1
+	cls
 	ECHO                                PHASE: Appending image
 	"tools\ImageX\x86\imagex.exe" /append /flags "%flags%" %letter%: "%~dp0Output\WIM\install.wim" "%Description%" "%Description%"
 )

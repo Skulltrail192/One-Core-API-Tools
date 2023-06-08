@@ -1,6 +1,6 @@
 @echo off
 
-ECHO                 PHASE: Choose mount Boot WIM
+ECHO                       PHASE: Choose mount Boot WIM
 
 ECHO The Windows PE Setup Image of Boot WIM is not mounted. Do you want mount to copy patched binaries?
 ECHO.

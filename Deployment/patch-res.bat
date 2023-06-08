@@ -11,19 +11,6 @@ if "%installationType%" == "" (
 	cls
 )
 
-
-if not exist "%~dp0Boot\sources" (
-	ECHO Warning: you not mounted Boot WIM, no changes to Windows PE Setup Image, only main sources.
-	
-	pause
-	
-	cls
-	
-	call choose-mount-boot-wim.bat	
-	cls
-
-)
-
 ECHO                 PHASE: Patch Resources to deploy XP/2003
 
 ECHO Please choose if you want patch setup binaries with XP/2003 setup style:
@@ -105,14 +92,10 @@ IF %a%==1 (
 		)				
 			
 		REM XCOPY Sources\DVD\sources\setup.exe "%~dp0Boot\sources" /Y /F
-
 		
-		cls
-		
-		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
-		
-		call choose-unmount-boot-wim.bat				
 	)	
+
+	ECHO                 PHASE: Patch Resources to deploy XP/2003
 
 	ECHO Done!
 	goto :EOF

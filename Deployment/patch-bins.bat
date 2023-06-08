@@ -107,14 +107,6 @@ IF %a%==1 (
 	REM "%~dp0tools\PEChecksum\PE.exe" -c Sources\DVD\sources\winsetup.dll
 
 :Terminate	
-	if not exist "%~dp0Boot\sources" (
-		cls
-		
-		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
-		
-		call choose-mount-boot-wim.bat			
-	)
-
 	if exist "%~dp0Boot\sources" (
 		"%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\sources\winsetup.dll" /A >nul
 		"%~dp0tools\icacls\%ARCH%\icacls.exe" "%~dp0Boot\sources\winsetup.dll" /grant *S-1-5-32-544:F >nul	
@@ -141,15 +133,7 @@ IF %a%==1 (
 		reg add "HKLM\TEMPSOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v "BypassNRO" /t REG_DWORD /d "1" /f >nul
 
 		reg unload HKLM\TEMPSYSTEM >nul	
-		reg unload HKLM\TempSoftware >nul 		
-		
-		pause
-		
-		cls
-		
-		ECHO               	  PHASE: Patch Binaries to deploy XP/2003		
-		
-		call choose-unmount-boot-wim.bat				
+		reg unload HKLM\TempSoftware >nul	
 	)	
 
 	goto :EOF
