@@ -31,5 +31,5 @@ REM patch winsetup
 call convert-sources-xp-style.bat
 
 REM create iso
-call iso.bat
+call make-iso.bat
 

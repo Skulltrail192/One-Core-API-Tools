@@ -44,6 +44,10 @@ IF %a%==2 (
 	ECHO                                PHASE: Appending image
 	"tools\ImageX\x86\imagex.exe" /append /flags "%flags%" %letter%: "%~dp0Output\WIM\install.wim" "%Description%" "%Description%"
 )
+IF %a%==3 (
+	cls
+	goto :Terminate
+)
 
 cls
 
@@ -52,4 +56,5 @@ ECHO                            PHASE: Compressing Windows image
 
 cls
 
+:Terminate
 call copy-WIM.bat

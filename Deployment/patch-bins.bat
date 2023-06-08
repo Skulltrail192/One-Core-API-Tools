@@ -6,7 +6,7 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
-ECHO               	  PHASE: Patch Binaries to deploy XP/2003
+ECHO               	    PHASE: Patch Binaries to deploy XP/2003
 
 ECHO Please choose if you want capure patch winsetup or it already did:
 ECHO.

@@ -11,7 +11,7 @@ if "%installationType%" == "" (
 	cls
 )
 
-ECHO                 PHASE: Patch Resources to deploy XP/2003
+ECHO                   PHASE: Patch Resources to deploy XP/2003
 
 ECHO Please choose if you want patch setup binaries with XP/2003 setup style:
 ECHO.
@@ -23,7 +23,7 @@ set /p a=Type option:
 IF %a%==1 (
 	cls	
 	
-	ECHO                 PHASE: Patch Resources to deploy XP/2003	
+	ECHO                   PHASE: Patch Resources to deploy XP/2003	
 	
 	ECHO Patching binaries with XP/2003 resources..
 
