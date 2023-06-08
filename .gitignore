@@ -13,4 +13,4 @@ Deployment/Sources/DVD/*
 Deployment/Boot/*
 
 # exclude everything
-Deployment/tools/ResourceHacker.log
+Deployment/tools/ResHack/ResourceHacker.log
