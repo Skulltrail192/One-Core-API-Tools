@@ -8,18 +8,26 @@ if "%setenv%" == "" (
 
 
 if exist "Sources\DVD\sources\boot.wim" (
-	REM Patch binaries with resources
-	call mount-boot-wim.bat	
+
+
+	REM Call Choose patch binaries
+	call choose-patch-bins.bat	
 	
-	REM Patch binaries with resources
-	call patch-bins.bat	
+	REM Call Choose patch resources
+	call choose-patch-res.bat		
+
+	REM Mount Boot WIM
+	call mount-boot-wim.bat		
 	
-	REM Patch binaries with resources
-	call patch-res.bat
+	REM Choose copy licenses
+	call choose-copy-licenses	
 	
-	REM Patch binaries with resources
-	call copy-licenses.bat	
+	REM Copy patched binaries
+	call copy-patched-bins.bat	
+
+	REM Copy patched resources
+	call copy-patched-res.bat		
 	
-	REM Patch binaries with resources
+	REM Unmount Boot WIM
 	call unmount-boot-wim.bat
 )

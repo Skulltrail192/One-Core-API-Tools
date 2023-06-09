@@ -2,7 +2,7 @@
 
 cls
 
-ECHO                           PHASE: Selection method to choose SKU
+ECHO                         PHASE: Selection method to choose SKU
 
 ECHO Do you want insert the SKU (Windows Edition) of your installation or prefer auto detect?:
 ECHO.

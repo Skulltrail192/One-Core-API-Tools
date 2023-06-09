@@ -19,7 +19,7 @@ REM Select drive-letter
 call set-drive-letter.bat
 
 REM Clean disk drive for pnf and log files
-call clean.bat
+call clean-drive.bat
 
 REM Choose method to select sku
 call sku-selection-method.bat
@@ -33,3 +33,8 @@ call convert-sources-xp-style.bat
 REM create iso
 call make-iso.bat
 
+cls
+
+ECHO                               PHASE: Finished Build
+
+ECHO Finished on %DATE% at %TIME%

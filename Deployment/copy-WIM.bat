@@ -2,7 +2,7 @@
 
 cls
 
-ECHO                            PHASE: Copying image to Sources
+ECHO                           PHASE: Copying image to Sources
 
 ECHO Copying install.wim to Windows DVD source folder
 

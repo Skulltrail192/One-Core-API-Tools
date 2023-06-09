@@ -1,6 +1,6 @@
 @echo off
 
-ECHO Cleanning Windows DVD source folder
+ECHO Cleanning Windows Boot PE WIM folder
 
 REM ECHO %letter%
 cd %~dp0Boot

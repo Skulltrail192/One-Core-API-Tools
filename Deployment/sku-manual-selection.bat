@@ -2,11 +2,11 @@
 
 cls
 
-	set "a="
-	set "TARGETISO="
-	set "Description="
-	set "flags="
-	set "installationType="	
+	set a=
+	set TARGETISO=
+	set Description=
+	set flags=
+	set installationType="	
 	
 	ECHO                                PHASE: Selection of SKU
 	
@@ -145,7 +145,7 @@ cls
 		SET installationType=server
 	)
 
-	if "%flags%" == "" (
+	if %flags% == "" (
 		SET TARGETISO=Windows
 		SET Description=Windows OS Image
 		SET flags=Windows Foundation

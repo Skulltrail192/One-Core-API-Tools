@@ -6,7 +6,7 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
-if "%installationType%" == "" (
+if %installationType% == "" (
 	call sku-selection-method.bat
 	cls
 )
