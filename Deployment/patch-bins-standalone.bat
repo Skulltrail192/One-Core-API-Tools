@@ -6,7 +6,7 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
-if not exist "%~dp0Boot\sources" (
+if not exist "%~dp0Boot\Setup\sources" (
 	cls	
 	call choose-mount-boot-wim.bat	
 	cls
@@ -14,7 +14,7 @@ if not exist "%~dp0Boot\sources" (
 
 call patch-bins.bat
 	
-if exist "%~dp0Boot\sources" (
+if exist "%~dp0Boot\Setup\sources" (
 	cls	
 	call choose-unmount-boot-wim.bat	
 	cls

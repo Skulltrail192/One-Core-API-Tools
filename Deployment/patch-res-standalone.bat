@@ -12,7 +12,7 @@ if %installationType% == "" (
 )
 
 
-if not exist "%~dp0Boot\sources" (
+if not exist "%~dp0Boot\Setup\sources" (
 	cls	
 	call choose-mount-boot-wim.bat	
 	cls
@@ -20,7 +20,7 @@ if not exist "%~dp0Boot\sources" (
 
 call patch-res.bat
 	
-if exist "%~dp0Boot\sources" (
+if exist "%~dp0Boot\Setup\sources" (
 	cls	
 	call choose-unmount-boot-wim.bat	
 	cls

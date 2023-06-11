@@ -30,4 +30,16 @@ if exist "Sources\DVD\sources\boot.wim" (
 	
 	REM Unmount Boot WIM
 	call unmount-boot-wim.bat
+	
+	REM Mount PE WIM
+	call mount-pe-wim.bat		
+
+	REM Copy background of WinPE
+	call copy-background-winpe.bat	
+
+	REM Unount PE WIM
+	call unmount-pe-wim.bat	
+	
+	REM Compress Boot WIM
+	call compress-boot-image
 )

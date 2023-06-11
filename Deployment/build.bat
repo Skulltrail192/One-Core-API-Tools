@@ -25,7 +25,7 @@ REM Choose method to select sku
 call sku-selection-method.bat
 
 REM capture image
-call capture.bat
+call choose-capture-image.bat
 
 REM patch winsetup
 call convert-sources-xp-style.bat
