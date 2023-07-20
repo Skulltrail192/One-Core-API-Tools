@@ -2,6 +2,8 @@
 
 cls
 
+mode con: lines=50
+
 	set a=
 	set TARGETISO=
 	set Description=
@@ -27,29 +29,31 @@ cls
 	ECHO 13.Windows XP Embedded
 	ECHO 14.Windows Longhorn Professional Edition
 	ECHO 15.Windows Longhorn Server Edition
-	ECHO 16.Windows Vista Starter
-	ECHO 17.Windows Vista Business
-	ECHO 18.Windows Vista Home Basic
-	ECHO 19.Windows Vista Home Premium
-	ECHO 20.Windows Vista Enterprise
-	ECHO 21.Windows Vista Ultimate
-	ECHO 22.Windows 7 Starter
-	ECHO 23.Windows 7 Professional
-	ECHO 24.Windows 7 Home Basic
-	ECHO 25.Windows 7 Home Premium
-	ECHO 26.Windows 7 Enterprise
-	ECHO 27.Windows 7 Ultimate	
-	ECHO 28.Windows 8	
-	ECHO 29.Windows 8 Core	
-	ECHO 30.Windows 8 Pro	
-	ECHO 31.Windows 8 Pro With Media Center
-	ECHO 32.Windows 10 Home
-	ECHO 33.Windows 10 Pro
-	ECHO 34.Windows 10 Pro Education
-	ECHO 35.Windows 10 Pro for Workstations
-	ECHO 36.Windows 10 Enterprise
-	ECHO 37.Windows 10 LTSC
-	ECHO 38.Reactos
+	ECHO 16.Windows Vista Beta 1
+	ECHO 17.Windows Vista Starter
+	ECHO 18.Windows Vista Business
+	ECHO 19.Windows Vista Home Basic
+	ECHO 20.Windows Vista Home Premium
+	ECHO 21.Windows Vista Enterprise
+	ECHO 22.Windows Vista Ultimate
+	ECHO 23.Windows 7 Starter
+	ECHO 24.Windows 7 Professional
+	ECHO 25.Windows 7 Home Basic
+	ECHO 26.Windows 7 Home Premium
+	ECHO 27.Windows 7 Enterprise
+	ECHO 28.Windows 7 Ultimate	
+	ECHO 29.Windows 8	
+	ECHO 30.Windows 8 Core	
+	ECHO 31.Windows 8 Pro	
+	ECHO 32.Windows 8 Pro With Media Center
+	ECHO 33.Windows 10 Home
+	ECHO 34.Windows 10 Pro
+	ECHO 35.Windows 10 Pro Education
+	ECHO 36.Windows 10 Pro for Workstations
+	ECHO 37.Windows 10 Enterprise
+	ECHO 38.Windows 10 LTSC
+	ECHO 39.Windows 11
+	ECHO 40.Reactos
 	ECHO.
 	
 	set /p a=Type option:
@@ -144,6 +148,13 @@ cls
 		SET flags=ServerEnterprise
 		SET installationType=server
 	)
+	
+	IF %a%==16 (
+		SET TARGETISO=LB1PFRE_EN
+		SET Description=Windows Longhorn Professional
+		SET flags=0
+		SET installationType=client
+	)	
 
 	if %flags% == "" (
 		SET TARGETISO=Windows
@@ -151,3 +162,5 @@ cls
 		SET flags=Windows Foundation
 		SET installationType=client
 	)
+
+mode con: lines=25

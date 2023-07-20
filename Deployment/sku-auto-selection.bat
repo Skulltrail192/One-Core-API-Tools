@@ -13,7 +13,6 @@ cls
 
 	if not exist "%letter%:\Program Files" (
 		ECHO The drive is not mounted or not a Windows/Reactos compatible installation
-		set isMounted="true"
 		pause >nul	
 		goto :EOF
 	)

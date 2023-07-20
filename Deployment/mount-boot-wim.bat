@@ -6,7 +6,7 @@ if "%setenv%" == "" (
 	call setenv.bat
 )
 
-ECHO                       PHASE: Mounting Boot WIM Image
+ECHO                        PHASE: Mounting Boot WIM Image
 
 if exist "Sources\DVD\sources\boot.wim" (
 	REM Mount Windows PE Setup Image  

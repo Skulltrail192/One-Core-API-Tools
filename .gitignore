@@ -3,8 +3,23 @@
 # exclude everything
 Deployment/Output/ISO/*
 
+# exception to the rule
+!Deployment/Output/ISO/Readme.txt 
+
 # exclude everything
 Deployment/Output/WIM/*
+
+# exception to the rule
+!Deployment/Output/WIM/Readme.txt 
+
+# exclude everything
+Deployment/Input/ISO/*
+
+# exception to the rule
+!Deployment/Input/ISO/Readme.txt 
+
+# exception to the rule
+!Deployment/Output/WIM/Readme.txt 
 
 # exclude everything
 Deployment/Sources/DVD/*

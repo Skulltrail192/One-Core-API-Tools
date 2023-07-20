@@ -27,6 +27,6 @@ if not exist "%letter%:\Program Files" (
 cls
 
 ECHO                                PHASE: Capturing image
-"tools\ImageX\x86\imagex.exe" /capture /flags "%flags%" %letter%: "%~dp0Output\WIM\install.wim" "%Description%" "%Description%"
+"tools\ImageX\x86\imagex.exe" /capture /flags "%flags%" %letter%: "%~dp0Output\WIM\install.wim" "%Description%" "%Description% - %DATE% - %TIME%"
 
 call compress-image.bat

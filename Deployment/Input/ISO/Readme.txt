@@ -1,0 +1,1 @@
+This folder contains input, including "ISO" folder, what is placed the Windows base DVD ISO

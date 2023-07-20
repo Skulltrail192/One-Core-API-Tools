@@ -5,7 +5,9 @@ if "%setenv%" == "" (
 )
 
 if "%letter%" == "" (
-	call set-drive-letter.bat
+	if "%noMountedDrive%" == "" (
+		call set-drive-letter.bat
+	)
 )
 
 if "%flags%" == "" (

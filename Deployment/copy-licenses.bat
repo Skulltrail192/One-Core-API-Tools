@@ -2,7 +2,7 @@
 
 cls
 
-ECHO                           PHASE: Copy Licenses
+ECHO                              PHASE: Copying Licenses
 
 if "%setenv%" == "" (
 	call setenv.bat

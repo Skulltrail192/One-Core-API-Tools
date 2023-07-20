@@ -2,7 +2,7 @@
 
 cls
 
-ECHO             PHASE: Copying patched resources to Boot WIM
+ECHO              PHASE: Copying patched resources to Boot WIM
 
 if %installationType% == client (
 	XCOPY res\client\background_cli.bmp "%~dp0Sources\DVD\sources" /Y /F

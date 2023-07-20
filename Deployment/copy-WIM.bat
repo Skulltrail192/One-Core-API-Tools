@@ -4,6 +4,11 @@ cls
 
 ECHO                           PHASE: Copying image to Sources
 
+if not exist "%~dp0Output\WIM\install.wim" (
+	ECHO Not copying Install.wim is not presente on Output\WIM!
+	goto :EOF
+)	
+
 ECHO Copying install.wim to Windows DVD source folder
 
 if exist "%~dp0Sources\DVD\sources\install.esd" (

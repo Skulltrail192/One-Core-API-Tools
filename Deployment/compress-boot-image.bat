@@ -2,8 +2,9 @@
 
 cls
 
-if not exist "%~dp0Output\WIM\install.wim" (
-	ECHO Install.wim is not presente on Output\WIM! Capture Image first.
+if not exist "%~dp0Sources\DVD\sources\boot.wim" (
+	ECHO                          PHASE: Compressing Boot image	
+	ECHO Boot.wim is not exists on Output\WIM! Capture Image first.
 	pause
 )	
 

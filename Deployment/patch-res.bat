@@ -14,7 +14,7 @@ if "%installationType%" == "" (
 
 cls	
 	
-ECHO                   PHASE: Patch Resources to deploy XP/2003	
+ECHO                     PHASE: Patch Resources to deploy XP/2003	
 	
 ECHO Patching binaries with XP/2003 resources..
 
