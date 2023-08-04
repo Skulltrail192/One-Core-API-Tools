@@ -31,9 +31,6 @@ call sku-selection-method.bat
 REM capture image
 call choose-capture-image.bat
 
-REM patch winsetup
-call convert-sources-xp-style.bat
-
 REM create iso
 call make-iso.bat
 

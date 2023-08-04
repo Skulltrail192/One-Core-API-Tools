@@ -11,7 +11,8 @@ set /p driveLetter=Type driver letter:
 
 if not exist "%driveLetter%:\Sources" (
 	ECHO You choose a invalid drive sources. Run Command again and choose a valid drive with Windows DVD content:
-	goto :EOF
+	pause
+	exit
 )
 
 cls

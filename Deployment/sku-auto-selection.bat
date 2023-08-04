@@ -25,7 +25,7 @@ cls
 	
 	if exist "%letter%:\Windows\Professional.xml" (
 		if %GUESTARCH% == x86 (
-			SET TARGETISO=WXPFPP_EN			
+			SET TARGETISO=WXPFPP_EN
 			SET Description=Windows XP Professional Edition
 		)		
 		if %GUESTARCH% == x64 (			

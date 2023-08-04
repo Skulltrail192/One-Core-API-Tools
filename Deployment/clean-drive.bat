@@ -30,6 +30,7 @@ ECHO Cleanning some files from drive
 
 del "%letter%:\Windows\OEWABLog.txt" >nul 2>nul
 del "%letter%:\Windows\setuplog.txt" >nul 2>nul
+del "%letter%:\Windows\SchedLgU.txt" >nul 2>nul
 
 rmdir /s /q ""%letter%:\Windows\Panther" >nul 2>nul
 

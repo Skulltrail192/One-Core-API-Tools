@@ -2,7 +2,7 @@
 
 cls
 
-ECHO                  PHASE: Copying patched WinSetup to Boot WIM
+ECHO                   PHASE: Copying patched WinSetup to Boot WIM
 
 if exist "%~dp0Boot\Setup\sources" (
     "%~dp0tools\takeown\%ARCH%\takeown.exe" /F "%~dp0Boot\Setup\sources\winsetup.dll" /A >nul
