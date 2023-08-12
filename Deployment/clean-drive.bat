@@ -31,6 +31,8 @@ ECHO Cleanning some files from drive
 del "%letter%:\Windows\OEWABLog.txt" >nul 2>nul
 del "%letter%:\Windows\setuplog.txt" >nul 2>nul
 del "%letter%:\Windows\SchedLgU.txt" >nul 2>nul
+del "%letter%:\Windows\ntbtlog.txt" >nul 2>nul
+del "%letter%:\Windows\Prefetch\Layout.ini" >nul 2>nul
 
 rmdir /s /q ""%letter%:\Windows\Panther" >nul 2>nul
 
@@ -42,6 +44,10 @@ for /f "tokens=*" %%A in ('dir /s /b /a "%letter%:\*.TMP*"') do (
 
 REM ECHO %letter%
 for /f "tokens=*" %%A in ('dir /s /b /a "%letter%:\*.pnf*"') do (
+	del /q /s /a /f "%%A" >nul 2>nul
+)
+
+for /f "tokens=*" %%A in ('dir /s /b /a "%letter%:\*.pf*"') do (
 	del /q /s /a /f "%%A" >nul 2>nul
 )
 
