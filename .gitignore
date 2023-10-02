@@ -28,10 +28,19 @@ Deployment/Sources/DVD/*
 !Deployment/Sources/DVD/Readme.txt 
 
 # exclude everything
-Deployment/Boot/*
+Deployment/Boot/PE*
 
 # exception to the rule
-!Deployment/Boot/Readme.txt 
+!Deployment/Boot/PE/Readme.txt
+
+# exclude everything
+Deployment/Boot/Setup*
+
+# exception to the rule
+!Deployment/Boot/Setup/Readme.txt
+
+# exception to the rule
+!Deployment/Boot/Readme.txt
 
 # exclude everything
 Deployment/tools/ResHack/ResourceHacker.log
