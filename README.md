@@ -11,4 +11,4 @@ Restrictions:
 - After use deployment tool, the VM will be install again all drivers, and maybe you need install VM tools too again;
 - If you dont't run sysprep included on One-Core-API Modern Setup package before capture the Windows Installation, Windows will don't enter on Hardware detection phase on setup;
 - Windows Vista or above setup by default can't install Windows XP/2003 without error, because begin on Vista the language setup was modified. So, you must patch setup before generate a iso with Windows XP/2003 Setup;
-
+- You need use a Windows Vista/7/8/8.1/10 iso to procced install. You can copy the iso to Deployment/Input/ISO. After copy, you must need use extract-iso.bat to extract all needed content to iso. You can too use a Deployment\copy-content-drive.bat to copy content from a monted iso or cd/dvd inserted on drive. In all cases the content will be copied to Deployment\Sources\DVD. You can copy manually the content from a iso ou dvd to Deployment\Sources\DVD.
