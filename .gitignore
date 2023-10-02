@@ -1,6 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # exclude everything
+Deployment/Boot/PE/*
+
+# exception to the rule
+!Deployment/Boot/PE/Readme.txt
+
+# exclude everything
+Deployment/Boot/Setup/*
+
+# exception to the rule
+!Deployment/Boot/Setup/Readme.txt 
+
+# exclude everything
 Deployment/Output/ISO/*
 
 # exception to the rule
@@ -25,7 +37,7 @@ Deployment/Input/ISO/*
 Deployment/Sources/DVD/*
 
 # exception to the rule
-!Deployment/Sources/DVD/Readme.txt 
+!Deployment/Sources/DVD/Readme.txt
 
 # exclude everything
 Deployment/tools/ResHack/ResourceHacker.log
