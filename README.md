@@ -3,7 +3,7 @@
 This repository contains tools for One-Core-API, Windows XP and Server 2003 Deployment and on future, other tools.
 
 Restrictions:
-- You must install Windows Xp/2003/Longhorn on a Hypervisor, lie Vmware (recommended), VirtualBox or Qemu;
+- You must install Windows Xp/2003/Longhorn on a Hypervisor, like Vmware (recommended), VirtualBox or Qemu;
 - If you use VirtualBox 4 and 5.x to install Windows, you must enable APIC mode on VirtualBoX VM config (processor section) to turn possible install One-Core-API Modern Setup package;
 - For now, the deployment tool is dependent of One-Core-API Modern Setup package. If you don't install these package on Windows Installation, the setup will fail;
 - Is recommend install One-Core-API Driver Update too, to support AHCI, NVME and USB 3.0 (USBXHCI) and can be installed on several computers;
